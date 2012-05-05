@@ -1,0 +1,9 @@
+#caption {
+     font: 30px sans-serif; 
+     float: right;
+     text-align: center;
+     width: 100%;
+
+}
+     
+ text {font: 10px sans-serif; stroke: #000; fill: #000}
