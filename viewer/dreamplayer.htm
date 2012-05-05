@@ -6,10 +6,8 @@
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <script type="text/javascript" src="../../jquery-1.5.2.min.js"></script>
 <script type="text/javascript" src="./player.js"></script>
-<!-- <script type="text/javascript" src="./examplejson.js"></script> -->
-<script type="text/javascript" src="../data/output/mlk-ihaveadream.json"></script>
 <script type="text/javascript" src="d3.v2.js"></script>
-<link type="text/css" rel="stylesheet" href="./dreamplayer.css"/>
+<!-- <link type="text/css" rel="stylesheet" href="./dreamplayer.css"/>-->
 
 <script type="text/javascript">
 // parameterize selection menu
@@ -31,7 +29,7 @@ d3.select("#menu")
 function load(file) {
   d3.json(file, visualize);
 }
-
+</script>
 
 <body>
     <select id="menu"><option>Choose A File to View</option></select>
