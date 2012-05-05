@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title>Dream Stream Viewer</title>
+    <script type="text/javascript" src="d3.v2.js"></script>
+    <style type="text/css">
+body {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+h1 {
+  font-size: 16pt;
+}
+img.thumb {
+  max-width: 100;
+  max-height: 100;
+  padding: 5px;
+}
+    </style>
+  </head>
+  <body>
+    <select id="menu"><option>Choose A File to View</option></select>
+    <div id="display"></div>
+
+<script type="text/javascript">
+// parameterize selection menu
+var files = [
+  "mlk-ihaveadream.json"
+];
+d3.select("#menu")
+    .on("change", function() {
+      load(d3.select(this).property("value"));
+    })
+  .selectAll("option.new")
+    .data(files)
+  .enter().append("option")
+    .property("value", function(d) { return d; })
+    .text(function(d) { return d; });
+</script>
+
+<script type="text/javascript">
+function load(file) {
+  d3.json(file, visualize);
+}
+
+function visualize(data) {
+  var div = d3.select("#display");
+  div.html(""); // clear
+
+  div.selectAll("div")
+      .data(data)
+    .enter().append("div")
+      .html(function(d) { return "<h1>"+d.query+"</h1>"; })
+    .selectAll("img.thumb")
+      .data(function(d) { return d.image; })
+    .enter().append("img")
+      .attr("class", "thumb")
+      .attr("src", function(img) { return img; });
+}
+</script>
+  </body>
+</html>
