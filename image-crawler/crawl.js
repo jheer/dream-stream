@@ -2,16 +2,15 @@ var fs = require("fs");
 var XHR = require("xmlhttprequest");
 
 var verbose = true;
-var delay = 1000;
-var outd = "output/";
+var delay = 5000;
 
 var inputFile = null;
 if (process.argv[2]) {
   inputFile = process.argv[2];
 } else {
   console.log('Image Crawler - Given newline-delimited strings, query for images');
-  console.log(' USAGE: node crawl.js <filename>');
-  console.log(' Image URLs will be written to files in "'+outd+'"');
+  console.log(' USAGE: node crawl.js <filename>.txt');
+  console.log(' Text and image URLs are written to <filename>.json');
   process.exit(1);
 }
 
@@ -30,21 +29,31 @@ function getFilename(file) {
   return file.substring(idx0, idx1);
 }
 
-function write(list, file) {
-  fs.writeFile(file, list.join("\n"));
+function write(obj, file) {
+  fs.writeFile(file, JSON.stringify(obj));
 }
 
 function crawlFor(file) {
   var lines = fs.readFileSync(file).toString().split("\n");
   var name = getFilename(file);
-  try {
-    fs.mkdirSync(outd + name);
-  } catch (err) {
-    if (err.errno!==47) console.log(err);
-  }
   if (verbose) { console.log("CRAWLING FOR: "+file); }
 
-  var run = function(t,i) { request_google(t, outd+name+"/"+i, i); };
+  var res = [];
+  var count = lines.length;
+
+  var run = function(t,i) {
+    request_google(t, i, done);
+  };
+  var done = function(images, query, index) {
+    res[index] = {
+      index: index,
+      query: query,
+      image: images
+    };
+    count -= 1;
+    if (count === 0) write(res, name+".json")
+  }
+
   if (delay <= 0) {
     lines.forEach(run);
   } else {
@@ -54,7 +63,7 @@ function crawlFor(file) {
   }
 }
 
-function request_google(query, file, index) {
+function request_google(query, index, callback) {
   var pageStart = 0;
   var pageEnd = 8; //64;
   var pageStep = 8;
@@ -77,10 +86,8 @@ function request_google(query, file, index) {
           } else {
             data.results.forEach(function(r) { imgs.push(r.url); });
           }
-        } catch (err) {
-          console.log(err);
-        }
-        if (numPages === 0) { write(imgs, file); }
+        } catch (err) { console.log(err); }
+        if (numPages === 0) { callback(imgs, query, index); }
 	  }
 	};
 	xhr.open("GET", url + qs + "&start=" + start);
