@@ -1,15 +1,16 @@
 <html>
   <head>
-    <title>Dream Streamer</title>
+    <title>dream-stream</title>
     <script type="text/javascript" src="d3.v2.js"></script>
     <style type="text/css">
 body {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  text-align: center;
 }
 #display {
-  margin-top: 1em;
   width: 100%;
   text-align: center;
+  margin-top: 2em;
 }
 img {
   min-width: 600px;
@@ -18,11 +19,17 @@ img {
   max-height: 600px;
 }
 #query {
-  font-size: 16pt;
-  padding: 6px;
-  width: 100%;
+  position: absolute;
+  width: 95%;
+  bottom: 5px;
   text-align: center;
   border: none;
+  outline: none;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 6px;
+  font-size: 24pt;
+  background: none;
 }
 #ctrl {
   position: absolute;
@@ -56,11 +63,14 @@ img {
 
 
 <script type="text/javascript">
+var images = [];
+var index = 0;
+
 function update() {
   var q = d3.select("#query").property("value");
   var p = d3.select("#prefix").property("value");
   var sz = d3.select("#size").property("value");
-  var req = "http://localhost:8889/?"
+  var req = "http://localhost:8888/?"
             + (sz ? "imgsz="+sz+"&" : "")
             + "q="+ encodeURIComponent(p+" "+q);
   d3.json(req, visualize);
@@ -68,8 +78,23 @@ function update() {
 }
 
 function visualize(data) {
+  images = data;
+  index = 0;
   d3.select("#image").attr("src", data[0]);
+  images.map(function(i) { return new Image(i); });
 }
+
+document.getElementById("query").focus();
+
+d3.select("body")
+  .on("keydown", function() {
+    var c = d3.event.keyCode;
+    var inc = (c===37 ? -1 : c===39 ? 1 : 0);
+    if (inc !== 0) {
+      index = (index + inc) % images.length;
+      d3.select("#image").attr("src", images[index]);
+    }
+  });
 </script>
   </body>
 </html>
