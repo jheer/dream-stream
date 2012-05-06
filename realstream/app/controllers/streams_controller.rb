@@ -1,4 +1,9 @@
 class StreamsController < ApplicationController
+  require 'net/http'
+  require 'uri'
+  require 'open-uri'
+  require 'json'
+  
   # GET /streams
   # GET /streams.json
   def index
@@ -41,7 +46,15 @@ class StreamsController < ApplicationController
   # POST /streams.json
   def create
     @stream = Stream.new(params[:stream])
-    Juggernaut.publish("channel1", @stream.url) 
+    query=@stream.query 
+    url = "http://localhost:8888/?q="+query #+"&imgsz=icon"
+    url = URI.escape(url)
+    data = open(url).read
+    data = JSON.parse(data)
+    #@data = data['payload']['search_result']
+        
+    Juggernaut.publish("channel1", data[0]) 
+    Juggernaut.publish("query", query) 
     @stream.save
 
     redirect_to :new_stream

@@ -1,3 +1,16 @@
+<style type="text/css">
+#caption, #title {
+     font: 30px sans-serif; 
+     float: right;
+     text-align: center;
+     width: 100%;
+
+}
+     
+text {font: 10px sans-serif; stroke: #000; fill: #000}
+</style>
+
+
 <script src="http://localhost:8080/application.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript" charset="utf-8">
@@ -6,7 +19,14 @@
     console.log("Got data: " + data);
 	$("#MainImage").attr("src",data);
   });
+  jug.subscribe("query", function(data){
+    console.log("Got query: " + data);
+	$("#caption").attr("src",data);
+  });
+
 </script>
 
 
+<p align="center" id="title">Control me at: <strong>bit.ly/dreamstreamer</strong></p>
 <p align="center"><img border="0" src="http://pierre.chachatelier.fr/programmation/images/mozodojo-original-image.jpg" width="640" height="480" id="MainImage"></p>
+<p align="center" id="caption">hi</p>
