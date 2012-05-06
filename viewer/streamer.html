@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <title>Dream Streamer</title>
+    <script type="text/javascript" src="d3.v2.js"></script>
+    <style type="text/css">
+body {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+#display {
+  margin-top: 1em;
+  width: 100%;
+  text-align: center;
+}
+img {
+  min-width: 600px;
+  min-height: 400px;
+  max-width: 1000px;
+  max-height: 600px;
+}
+#query {
+  font-size: 16pt;
+  padding: 6px;
+  width: 100%;
+  text-align: center;
+  border: none;
+}
+#ctrl {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+    </style>
+  </head>
+  <body>
+    <input id="query"  type="text" onchange="update();"/>
+    <div id="ctrl">
+      <select id="size" onchange="update();">
+        <option value="">All</option>
+        <option value="icon">Icons</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+        <option value="xxlarge">Extra Large</option>
+        <option value="huge">Huge</option>
+      </select>
+      <select id="prefix" onchange="update();">
+        <option value="">All Sites</option>
+        <option value="site:deviantart.com">DeviantArt</option>
+        <option value="site:flickr.com">Flickr</option>
+        <option value="site:istockphoto.com">iStockPhoto</option>
+        <option value="site:nytimes.com">New York Times</option>
+        <option value="site:bbc.co.uk">BBC</option>
+      </select>
+    </div>
+    <div id="display"><img id="image"/></div>
+
+
+<script type="text/javascript">
+function update() {
+  var q = d3.select("#query").property("value");
+  var p = d3.select("#prefix").property("value");
+  var sz = d3.select("#size").property("value");
+  var req = "http://localhost:8889/?"
+            + (sz ? "imgsz="+sz+"&" : "")
+            + "q="+ encodeURIComponent(p+" "+q);
+  d3.json(req, visualize);
+  d3.select("#query").property("value", "");
+}
+
+function visualize(data) {
+  d3.select("#image").attr("src", data[0]);
+}
+</script>
+  </body>
+</html>

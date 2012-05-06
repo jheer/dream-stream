@@ -2,7 +2,8 @@ var fs = require("fs");
 var XHR = require("xmlhttprequest");
 
 var verbose = true;
-var delay = 5000;
+var delay = 2000;
+var prefix = "site:deviantart.com ";
 
 var inputFile = null;
 if (process.argv[2]) {
@@ -70,7 +71,7 @@ function request_google(query, index, callback) {
   var numPages = pageEnd / pageStep;
 
   var url = "https://ajax.googleapis.com/ajax/services/search/images";
-  var qs = "?v=1.0&rsz=" + pageStep + "&q=" + encodeURIComponent(query);
+  var qs = "?v=1.0&rsz="+pageStep+"&q="+encodeURIComponent(prefix+query);
   var imgs = [];
 
   var process = function(start) {
