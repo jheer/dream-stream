@@ -1,4 +1,5 @@
 var speechData = 0;
+var bPlay = 1;
 /*
 // The list of images to display in the slideshow
 //creating a array of the image object
@@ -48,11 +49,11 @@ function preload()
 {
 
 
-    for (i=0;i<speechData.length;i++) {
+//    for (i=0;i<speechData.length;i++) {
+    for (i=0;i<40;i++) {
 	imagePreload[i]=new Image();
-	imagePreload[i].src=speechData[i].image;
+	imagePreload[i].src=speechData[i].image[0];
     }
-    $("#caption").html( speechData[0].text);    
 }
 
 //$(preload);
@@ -66,6 +67,16 @@ function nextImage()
 }
 
 
+function pause()
+{
+    bPlay = 0;
+}
+
+function play()
+{
+    bPlay = 1;
+}
+
 function auto()
 {
     if (num < speechData.length) {
@@ -76,10 +87,12 @@ function auto()
 
 function slideshow_automatic()
 {
-    $("#MainImage").attr("src", speechData[num++].image[0]);
-    $("#caption").html( speechData[num].query);
+    if (bPlay) {
+	$("#MainImage").attr("src", speechData[num].image[0]);
+	$("#caption").html( speechData[num++].query);
 
 //    timeDelay=setTimeout("slideshow_automatic()",speechData[num+1].start-speechData[num++].start);
+    }
     timeDelay=setTimeout("slideshow_automatic()",2000);
 
 }
@@ -88,4 +101,6 @@ function slideshow_automatic()
 function visualize(data)
 {
     speechData = data;
+    preload();
+    auto();
 }

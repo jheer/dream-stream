@@ -7,7 +7,7 @@
 <script type="text/javascript" src="../../jquery-1.5.2.min.js"></script>
 <script type="text/javascript" src="./player.js"></script>
 <script type="text/javascript" src="d3.v2.js"></script>
-<!-- <link type="text/css" rel="stylesheet" href="./dreamplayer.css"/>-->
+<link type="text/css" rel="stylesheet" href="./dreamplayer.css"/>
 
 <script type="text/javascript">
 // parameterize selection menu
@@ -33,14 +33,18 @@ function load(file) {
 
 <body>
     <select id="menu"><option>Choose A File to View</option></select>
-      <button id="next" onclick="nextImage()"> Next </button>
-      <button id="start" onclick="auto()"> start </button>
+     <button id="pause" onclick="pause()"> Pause </button>
+     <button id="go" onclick="play()"> Play </button>
 
-
-      <p align="center"><img border="0" src="images/Image1.jpg" width="640" height="480" id="MainImage"></p>
+     <div id= "presHolder">      
+       <p align="center"><img border="0" src="images/Image1.jpg"  id="MainImage"></p>
+       </div>
       <h1 id="caption"> First Slide </h1>
 
-
+<!--<video width="320" height="240" controls="controls">
+  <source src="data/mlk-speech.mov" type="video/mp4" />
+  Your browser does not support the video tag.
+</video> -->
 
 
 </body>
