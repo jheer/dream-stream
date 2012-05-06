@@ -26,10 +26,11 @@ def csv2py(json_file,timings_csv,turk_csv,destination):
     for row in reader:
         text = text + str(row)
         #print orig[int(row[0])]['index']
+
+        orig[int(row[0])]['index'] = int(row[0])+1 
         orig[int(row[0])]['start'] = row[2]        
         orig[int(row[0])]['end'] = row[3]        
 
-    
     #read turk images csv
     reader = csv.reader(open(turk_csv, 'r'))    
     headers = reader.next() 
