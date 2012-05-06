@@ -53,8 +53,10 @@ class StreamsController < ApplicationController
     data = JSON.parse(data)
     #@data = data['payload']['search_result']
         
+    Juggernaut.publish("query", query)
+    puts query 
     Juggernaut.publish("channel1", data[0]) 
-    Juggernaut.publish("query", query) 
+    
     @stream.save
 
     redirect_to :new_stream

@@ -12,14 +12,13 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :query %><br />
     <%= f.text_field :query %>
-  </div>
-  <div class="field">
-    <%= f.label :url %><br />
-    <%= f.text_field :url %>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
+  <script type="text/javascript">
+    document.getElementById("stream_query").focus();
+  </script>
+
 <% end %>

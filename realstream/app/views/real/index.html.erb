@@ -6,6 +6,20 @@
      width: 100%;
 
 }
+
+#caption {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  font-size: 36pt;
+}
+
+#main-image {
+  max-width: 1000px;
+  min-width: 600px;
+  max-height: 560px;
+  min-height: 400px;
+}
      
 text {font: 10px sans-serif; stroke: #000; fill: #000}
 </style>
@@ -17,16 +31,18 @@ text {font: 10px sans-serif; stroke: #000; fill: #000}
   var jug = new Juggernaut;
   jug.subscribe("channel1", function(data){
     console.log("Got data: " + data);
-	$("#MainImage").attr("src",data);
+	$("#main-image").attr("src",data);
   });
+
   jug.subscribe("query", function(data){
     console.log("Got query: " + data);
-	$("#caption").attr("src",data);
+	$("#caption").html(data);
   });
+
 
 </script>
 
 
 <p align="center" id="title">Control me at: <strong>bit.ly/dreamstreamer</strong></p>
-<p align="center"><img border="0" src="http://pierre.chachatelier.fr/programmation/images/mozodojo-original-image.jpg" width="640" height="480" id="MainImage"></p>
+<p align="center"><img border="0" src="http://pierre.chachatelier.fr/programmation/images/mozodojo-original-image.jpg" id="main-image"></p>
 <p align="center" id="caption">hi</p>
