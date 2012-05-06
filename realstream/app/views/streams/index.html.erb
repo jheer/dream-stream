@@ -1,0 +1,25 @@
+<h1>Listing streams</h1>
+
+<table>
+  <tr>
+    <th>Query</th>
+    <th>Url</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @streams.each do |stream| %>
+  <tr>
+    <td><%= stream.query %></td>
+    <td><%= stream.url %></td>
+    <td><%= link_to 'Show', stream %></td>
+    <td><%= link_to 'Edit', edit_stream_path(stream) %></td>
+    <td><%= link_to 'Destroy', stream, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Stream', new_stream_path %>
