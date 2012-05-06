@@ -16,6 +16,10 @@ def csv2py(json_file,timings_csv,turk_csv,destination):
     #keys = index, query,image[array] 
     orig = json.loads(text)
 
+    for item in orig:
+        item['index'] = str(int(item['index'])+1)
+        print item
+
     #read timings csv
     reader = csv.reader(open(timings_csv, 'r'))    
     headers = reader.next() 
@@ -27,9 +31,9 @@ def csv2py(json_file,timings_csv,turk_csv,destination):
         text = text + str(row)
         #print orig[int(row[0])]['index']
 
-        orig[int(row[0])]['index'] = int(row[0])+1 
-        orig[int(row[0])]['start'] = row[2]        
-        orig[int(row[0])]['end'] = row[3]        
+        #orig[int(row[0])]['index'] = int(row[0])+1 
+        orig[int(row[0])-1]['start'] = row[2]        
+        orig[int(row[0])-1]['end'] = row[3]        
 
     #read turk images csv
     reader = csv.reader(open(turk_csv, 'r'))    
@@ -41,10 +45,10 @@ def csv2py(json_file,timings_csv,turk_csv,destination):
     for row in reader:
         text = text + str(row)
         
-        if 'turk_images' not in orig[int(row[0])]:
-            orig[int(row[0])]['turk_images'] = []        
+        if 'turk_images' not in orig[int(row[0])-1]:
+            orig[int(row[0])-1]['turk_images'] = []        
         
-        orig[int(row[0])]['turk_images'].append(row[2])
+        orig[int(row[0])-1]['turk_images'].append(row[2])
    
     #print json.dumps(orig)
     f = open (destination, 'w')
